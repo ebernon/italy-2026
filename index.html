@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Italy 2026 · Eric & Candice</title>
+<meta name="theme-color" content="#1f6f8b" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Italy 2026" />
+<style>
+  :root{
+    --sea:#1f6f8b; --sea-d:#155264; --sky:#bfe6fb; --sand:#f6efe2; --ivory:#fbf8f2;
+    --terra:#c8643c; --olive:#7e8b55; --pink:#d8417f; --pinkL:#f4d9e6;
+    --gold:#b8964a; --ink:#23201b; --muted:#7c756a; --line:#e7ded0; --green:#3b7d4f;
+    --card:#ffffff; --shadow:0 6px 22px rgba(31,56,72,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--sand);color:var(--ink);line-height:1.5;
+    padding-bottom:84px;padding-top:env(safe-area-inset-top);}
+  a{color:var(--sea)}
+  .wrap{max-width:680px;margin:0 auto;padding:0 14px}
+  /* Header */
+  header{background:linear-gradient(135deg,var(--sea),var(--sea-d));color:#fff;
+    padding:calc(18px + env(safe-area-inset-top)) 0 16px;border-radius:0 0 22px 22px;box-shadow:var(--shadow)}
+  .h-top{display:flex;align-items:center;gap:12px}
+  .h-ico{width:46px;height:46px;border-radius:12px;flex:0 0 auto;box-shadow:0 2px 8px rgba(0,0,0,.2);background:#fff}
+  .h-title{font-size:20px;font-weight:800;letter-spacing:.2px;margin:0}
+  .h-sub{font-size:12.5px;opacity:.9;margin:2px 0 0}
+  .status{margin-top:13px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+    border-radius:14px;padding:11px 13px;backdrop-filter:blur(4px)}
+  .status .lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.4px;opacity:.85}
+  .status .now{font-size:15px;font-weight:700;margin-top:2px}
+  .status .nxt{font-size:12.5px;opacity:.92;margin-top:4px}
+  /* Tabs */
+  nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.97);
+    border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:2px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{flex:0 0 auto;background:none;border:none;font:inherit;color:var(--muted);
+    padding:6px 10px;border-radius:11px;display:flex;flex-direction:column;align-items:center;gap:2px;
+    min-width:62px;cursor:pointer;font-size:10.5px;font-weight:600}
+  nav.tabs button .ic{font-size:19px;line-height:1}
+  nav.tabs button.on{color:var(--sea);background:var(--sky)}
+  /* Content */
+  main{padding-top:16px}
+  section{display:none;animation:fade .25s ease}
+  section.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  h2.sec{font-size:20px;margin:4px 0 4px;font-weight:800}
+  p.lead{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 3px;font-size:16px}
+  .card .meta{color:var(--muted);font-size:13px}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;margin:0 4px 4px 0}
+  .pill.sea{background:var(--sky);color:var(--sea-d)} .pill.terra{background:#f6ddd1;color:var(--terra)}
+  .pill.pink{background:var(--pinkL);color:var(--pink)} .pill.gold{background:#f0e6cb;color:#8a6d22}
+  .pill.green{background:#d9efdf;color:var(--green)} .pill.gray{background:#ece7df;color:var(--muted)}
+  .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .tag-date{font-size:12px;font-weight:800;color:#fff;background:var(--terra);border-radius:8px;padding:3px 8px;white-space:nowrap}
+  .tag-date.sea{background:var(--sea)} .tag-date.pink{background:var(--pink)} .tag-date.olive{background:var(--olive)}
+  .maplink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--sea);
+    text-decoration:none;margin-top:8px;background:var(--sky);padding:6px 10px;border-radius:9px}
+  .tel{font-weight:700;color:var(--sea);text-decoration:none}
+  .sub{font-size:13px;color:var(--ink)}
+  .day{cursor:pointer}
+  .day .ev{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:none}
+  .day.open .ev{display:block}
+  .ev .e{display:flex;gap:9px;margin:9px 0}
+  .ev .e .t{font-size:11px;font-weight:800;color:var(--muted);min-width:62px;padding-top:1px}
+  .ev .e .b{font-size:14px}
+  .ev .e .b small{color:var(--muted);font-size:12.5px;display:block}
+  .chev{transition:transform .2s;color:var(--muted);font-size:13px}
+  .day.open .chev{transform:rotate(90deg)}
+  .alert{background:#fff6ed;border:1px solid #f3d8bf;border-left:4px solid var(--terra);border-radius:12px;padding:12px 13px;margin-bottom:11px}
+  .alert.red{background:#fdf0f0;border-color:#f2c9c9;border-left-color:#c0392b}
+  .alert b{display:block;margin-bottom:2px}
+  .alert .small{font-size:12.5px;color:var(--muted)}
+  .reveal{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;font-size:13px;cursor:pointer}
+  .hidden-val{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:1px}
+  .doc-line{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .doc-line:last-child{border-bottom:none}
+  .check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .check:last-child{border-bottom:none}
+  .check .bx{width:20px;height:20px;border:2px solid var(--sea);border-radius:6px;flex:0 0 auto;margin-top:1px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--sea);font-weight:900}
+  .check.done .bx{background:var(--sea);color:#fff}
+  .check.done .lab{text-decoration:line-through;color:var(--muted)}
+  .wc{display:flex;gap:12px;align-items:flex-start}
+  .wc .when{background:var(--sea);color:#fff;border-radius:12px;padding:8px 10px;text-align:center;min-width:64px}
+  .wc .when .d{font-size:18px;font-weight:800;line-height:1}
+  .wc .when .m{font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:.9}
+  .wc .when .ti{font-size:11px;margin-top:3px;font-weight:700}
+  .group-h{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:var(--terra);font-weight:800;margin:18px 0 8px}
+  .group-h:first-child{margin-top:4px}
+  .mini{font-size:12.5px;color:var(--muted)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 8px}
+  .phrase{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .phrase:last-child{border-bottom:none}
+  .phrase .it{font-weight:700}
+  .phrase .en{color:var(--muted);font-size:13px;text-align:right}
+  .phrase .pr{font-size:11.5px;color:var(--sea);font-style:italic}
+  .banner{background:linear-gradient(135deg,#fff,#fef6ee);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+  .countdown{font-size:13px;font-weight:800;color:var(--terra)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="h-top">
+      <img class="h-ico" src="icon-192.png" alt="Coco in Puglia" />
+      <div>
+        <h1 class="h-title">Italy 2026 🇮🇹</h1>
+        <p class="h-sub">Eric, Candice &amp; Coco · Jul 13 – 30</p>
+      </div>
+    </div>
+    <div class="status" id="status">
+      <div class="lbl">Trip status</div>
+      <div class="now" id="statusNow">Loading…</div>
+      <div class="nxt" id="statusNext"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main"></main>
+
+<nav class="tabs" id="tabs"></nav>
+
+<script>
+/* ---------- DATA ---------- */
+const maps = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+
+const DAYS = [
+  {date:"Mon Jul 13", color:"olive", title:"Fly out — DCA → Rome ✈️", events:[
+    {t:"1:44 PM", b:"American · DCA → PHL → FCO", s:"Depart Washington Reagan. Overnight to Rome (booked with AA miles). Personal item + carry-on included; checked bag not yet paid."},
+    {t:"Heads up", b:"Bring the International Driving Permit", s:"Required to drive in Italy alongside your US license."},
+  ]},
+  {date:"Tue Jul 14", color:"terra", title:"Arrive Rome · Monti 🏛️", events:[
+    {t:"7:05 AM", b:"Land at Rome Fiumicino (FCO)", s:"Clear customs with Coco's EU pet pack handy."},
+    {t:"12:00 PM", b:"Check in — Guest House Cavour 278", s:"Via Cavour 278, Rione Monti. Check-out Wed 10:00.", map:"Via Cavour 278, Rione Monti, Roma"},
+    {t:"Afternoon", b:"Colosseum & Roman Forum", s:"Walkable downhill from Via Cavour (~10 min). Book a timed entry."},
+    {t:"9:00 PM", b:"⚽ World Cup Semifinal 1", s:"Watch at Finnegans pub in Monti (by Cavour metro). See World Cup tab."},
+  ]},
+  {date:"Wed Jul 15", color:"terra", title:"Drive Rome → Puglia · Lecce", events:[
+    {t:"10:30 AM", b:"Pick up Budget rental car", s:"Via Sardegna 38A, Rome. ~6 hr drive to Lecce.", map:"Via Sardegna 38A, Roma"},
+    {t:"5:00 PM", b:"Check in — Casa Vacanze Laura1, Lecce", s:"Via Casale Cerrate 13, 73100 Lecce.", map:"Via Casale Cerrate 13, Lecce"},
+    {t:"9:00 PM", b:"⚽ World Cup Semifinal 2", s:"Watch in Lecce — bars around Piazza Sant'Oronzo. See World Cup tab."},
+  ]},
+  {date:"Thu Jul 16", color:"sea", title:"Salento — Otranto & beaches 🏖️", events:[
+    {t:"Day", b:"Otranto + Baia dei Turchi / Torre dell'Orso", s:"Whitewashed coastal town and the best Adriatic beaches. See Beaches tab."},
+  ]},
+  {date:"Fri Jul 17", color:"sea", title:"Salento — Gallipoli 🏖️", events:[
+    {t:"Day", b:"Gallipoli old town + Punta della Suina", s:"Ionian-side beaches and seafood. See Beaches & Eat tabs."},
+    {t:"Note", b:"Cancellation deadline today", s:"Maris Apartments free-cancel ends 11:59 PM; Martina Franca free-cancel ends 3 PM."},
+  ]},
+  {date:"Sat Jul 18", color:"pink", title:"Lecce → Martina Franca", events:[
+    {t:"8–10 AM", b:"Check out of Lecce", s:""},
+    {t:"3:00 PM", b:"Check in — Martina Franca (Airbnb)", s:"Via Arco Casavola 1/2. Hosts Alfonso & Claudia. Check-out Tue 10:00.", map:"Via Arco Casavola 1/2, Martina Franca"},
+    {t:"Eve", b:"Valle d'Itria dinner", s:"Bombette country — see Eat tab."},
+  ]},
+  {date:"Sun Jul 19", color:"pink", title:"Day trips + ⚽ THE FINAL", events:[
+    {t:"Day", b:"Alberobello & Ostuni", s:"Trulli town + the White City. See Eat tab for stops."},
+    {t:"9:00 PM", b:"⚽ World Cup FINAL", s:"Watch in Martina Franca's centro storico. See World Cup tab."},
+  ]},
+  {date:"Mon Jul 20", color:"pink", title:"Matera / Polignano / Monopoli", events:[
+    {t:"Day", b:"Pick one: Matera (Sassi, ~1.5h), or Polignano a Mare + Monopoli", s:"Sea caves and cliff dives. See Eat & Beaches tabs."},
+  ]},
+  {date:"Tue Jul 21", color:"olive", title:"Bari → Alghero ✈️", events:[
+    {t:"By 8:00 PM", b:"Drop Budget car — Bari Airport (Palese)", s:"Aeroporto Palese, Bari.", map:"Aeroporto di Bari Palese"},
+    {t:"9:20 PM", b:"Ryanair BRI → AHO (Malta Air)", s:"Arrive Alghero 10:50 PM. Ref CZGRSW. Coco added; assistance confirmed."},
+    {t:"~11:00 PM", b:"Check in — Maris Apartments", s:"Strada Provinciale 44 #64 (600m from airport). Pay €4 tourist tax cash.", map:"Maris Apartments Strada Provinciale 44 Fertilia Alghero"},
+  ]},
+  {date:"Wed Jul 22", color:"sea", title:"Alghero old town (no car yet)", events:[
+    {t:"10:00", b:"Move to Via Garibaldi apartment", s:"Host Gabriele. Check-in 4 PM. Drop bags / explore old town.", map:"Via Giuseppe Garibaldi 113, Alghero"},
+    {t:"Beach", b:"Maria Pia or Le Bombarde", s:"Reachable by bus/bike — no car needed. See Beaches tab."},
+  ]},
+  {date:"Thu Jul 23", color:"sea", title:"Alghero — Riviera del Corallo 🏖️", events:[
+    {t:"Day", b:"Beach + old-town seafood", s:"Lazzaretto / Mugoni by Beach Bus. See Beaches & Eat tabs."},
+  ]},
+  {date:"Fri Jul 24", color:"sea", title:"Alghero — Capo Caccia", events:[
+    {t:"Day", b:"Capo Caccia / Neptune's Grotto", s:"Boat or the 654 steps. Sunset on the bastions."},
+  ]},
+  {date:"Sat Jul 25", color:"olive", title:"Alghero → Solanas (SE coast)", events:[
+    {t:"10:30 AM", b:"Pick up Hertz rental car", s:"Alghero (confirm pickup point). Drive south ~3 hr.", },
+    {t:"3:00–8:00 PM", b:"Check in — Il Nido Sul Mare, Solanas", s:"Via delle Gardenie 38, Solanas. Host Elisabetta.", map:"Via delle Gardenie 38, Solanas CA"},
+  ]},
+  {date:"Sun Jul 26", color:"sea", title:"Villasimius beaches 🏖️", events:[
+    {t:"Day", b:"Porto Giunco / Punta Molentis", s:"Sardinia's best. Arrive early for parking. See Beaches tab."},
+  ]},
+  {date:"Mon Jul 27", color:"sea", title:"Costa Rei / Cala Pira", events:[
+    {t:"Day", b:"Long sandy beaches + a quiet cove", s:"See Beaches tab."},
+  ]},
+  {date:"Tue Jul 28", color:"sea", title:"Solanas — relax / spa 💆", events:[
+    {t:"Day", b:"Beach day + optional spa", s:"Almar Timi Ama spa near Villasimius. See Spa tab."},
+  ]},
+  {date:"Wed Jul 29", color:"sea", title:"Cagliari day", events:[
+    {t:"Day", b:"Explore Cagliari (Castello, Marina)", s:"Pack tonight; trash out. See Eat tab."},
+  ]},
+  {date:"Thu Jul 30", color:"olive", title:"Fly home ✈️", events:[
+    {t:"11:00 AM", b:"Drop Hertz car — Cagliari Airport", s:"Confirm drop location (itinerary noted Bari — verify).", map:"Cagliari Elmas Airport"},
+    {t:"12:30 PM", b:"Delta CAG → CDG (DL8623)", s:"Arrive Paris 2:45 PM."},
+    {t:"5:00 PM", b:"Delta CDG → Washington Dulles (DL8729)", s:"Arrive IAD 7:35 PM. Buon viaggio!"},
+  ]},
+];
+
+const STAYS = [
+  {name:"Guest House Cavour 278", city:"Rome", tag:"Jul 14–15", color:"terra", src:"Booking.com · $188",
+   addr:"Via Cavour 278, Rione Monti, 00184 Rome", inout:"Check-in 12:00 · Check-out Wed 10:00",
+   note:"Full refund if cancelled before 6/29 11:59 PM.", map:"Via Cavour 278, Rione Monti, Roma"},
+  {name:"Casa Vacanze Laura1", city:"Lecce", tag:"Jul 15–18", color:"terra", src:"Booking.com · $209",
+   addr:"Via Casale Cerrate 13, 73100 Lecce", inout:"Check-in 17:00 · Check-out 8:00–10:00",
+   note:"Free cancellation until 7/11 11:59 PM.", map:"Via Casale Cerrate 13, Lecce"},
+  {name:"Dimora indipendente centro storico", city:"Martina Franca", tag:"Jul 18–21", color:"pink", src:"Airbnb · $243 · Alfonso & Claudia",
+   addr:"Via Arco Casavola 1/2, 74015 Martina Franca", inout:"Check-in 15:00 · Check-out 10:00",
+   note:"Free cancellation before 3 PM on 7/17.", map:"Via Arco Casavola 1/2, Martina Franca"},
+  {name:"Maris Apartments (arrival night)", city:"Alghero", tag:"Jul 21–22", color:"sea", src:"Booking.com · $127 · Marco & Giuseppe",
+   addr:"Strada Provinciale 44 #64 — 600m from Fertilia-Alghero airport", inout:"Arrive ~11 PM · Check-out 10:00 · Has a pool",
+   note:"Pay €4 tourist tax cash on arrival. Free evening airport shuttle — message hosts your flight time. Bus €1 to town via DropTicket app.",
+   tel:[["Marco","+39 324 9042564"],["Giuseppe","+39 335 299733"]], map:"Maris Apartments Strada Provinciale 44 Fertilia Alghero"},
+  {name:"Appartamento vista mozzafiato", city:"Alghero", tag:"Jul 22–25", color:"sea", src:"Airbnb · $908 · Gabriele",
+   addr:"Via Giuseppe Garibaldi 113, Alghero", inout:"Check-in 16:00 · Check-out 10:00",
+   note:"Partial refund if cancelled before 7/15.", map:"Via Giuseppe Garibaldi 113, Alghero"},
+  {name:"Il Nido Sul Mare (The Nest by the Sea)", city:"Solanas", tag:"Jul 25–30", color:"sea", src:"Airbnb · $921 · Elisabetta",
+   addr:"Via delle Gardenie 38, 09048 Solanas CA", inout:"Check-in 15:00–20:00 · Check-out 10:00",
+   note:"Take the trash out before leaving. Free cancellation before 3 PM 6/25.", map:"Via delle Gardenie 38, Solanas CA"},
+];
+
+const FLIGHTS = [
+  {d:"Mon Jul 13 → Tue Jul 14", air:"American Airlines", route:"DCA → PHL → FCO (Rome)", time:"Dep 1:44 PM · Arr 7:05 AM",
+   info:"Booked with AA miles. Personal item + carry-on included; checked bag not yet purchased.", ref:"No confirmation email yet", flag:true,
+   flagtxt:"ACTION: Confirm Coco is on the reservation (no confirmation email received)."},
+  {d:"Tue Jul 21", air:"Ryanair (operated by Malta Air)", route:"Bari BRI → Alghero AHO", time:"Dep 9:20 PM · Arr 10:50 PM",
+   info:"$53 ×2. Paid 1 checked bag each (20 kg/44 lb). Personal item 40×20×25 cm; carry-on 55×40×20 cm, 10 kg. Coco added; airport assistance confirmed.",
+   ref:"Ref: CZGRSW", flag:true, flagtxt:"ACTION: Chat with Ryanair to confirm whether the carry-on is included or needs paying online (cheaper than at the airport)."},
+  {d:"Thu Jul 30", air:"Delta", route:"Cagliari CAG → Paris CDG → Washington IAD", time:"CAG 12:30 PM → CDG 2:45 PM · CDG 5:00 PM → IAD 7:35 PM",
+   info:"DL8623 then DL8729, Economy (Q). €995 each. Personal item + carry-on + 1 checked bag each included.",
+   ref:"No confirmation email yet", flag:true, flagtxt:"ACTION: Confirm Coco is on the reservation (no confirmation email received)."},
+];
+
+const CARS = [
+  {co:"Budget (via Orbitz)", tag:"Jul 15–21", price:"$648", pickup:"Wed 7/15 10:30 AM · Via Sardegna 38A, Rome",
+   drop:"Tue 7/21 8:00 PM · Bari Airport (Palese)", map:"Via Sardegna 38A, Roma"},
+  {co:"Hertz (via Orbitz)", tag:"Jul 25–30", price:"$467", pickup:"Sat 7/25 10:30 AM · Alghero (confirm pickup point)",
+   drop:"Thu 7/30 11:00 AM · Cagliari Airport (itinerary noted Bari — verify)", map:"Cagliari Elmas Airport"},
+];
+
+const EAT = [
+  ["Rome — Monti (Tue night)", [
+    ["Finnegans","Irish sports pub in Monti by Cavour metro — perfect for the semifinal","$$",true],
+    ["La Carbonara (Via Panisperna)","Iconic Monti spot for carbonara & cacio e pepe","$$",true],
+    ["Trattoria Monti","Beloved family-run, Le Marche cuisine — dog-friendly","$$",true],
+    ["Urbana 47","Stylish farm-to-table Lazio menu + terrace","$$",true],
+    ["Cavour 313","Rome's oldest wine bar, boards & simple plates — casual","$$",false],
+  ]],
+  ["Rome — gelato & coffee", [
+    ["Gelateria dell'Angeletto","Gracchi offshoot; vegan/GF options, Piazza Madonna dei Monti","$",false],
+    ["Ciuri Ciuri","Sicilian gelato + great cannoli, Via Leonina","$",false],
+  ]],
+  ["Lecce", [
+    ["Le Zie Trattoria Casereccia","Cult home cooking — ring the bell. Reserve","$$",true],
+    ["La Cucina di Mamma Elvira","Modern Salento + wine bar, terrace — dog-friendly","$$",true],
+    ["Alle Due Corti","Old-school cucina salentina, daily menu","$$",false],
+    ["Osteria da Angiulino","Cucina povera since 1976, cheap & packed","$",false],
+  ]],
+  ["Martina Franca (Valle d'Itria)", [
+    ["Braceria Granaldi","Butcher-grill; legendary bombette & T-bones","$$",false],
+    ["Trattoria delle Ruote","Countryside masseria antipasti parade + grills","$$",false],
+    ["Ristorante Garibaldi","Cozy old-town spot; capocollo & bombette","$$",false],
+  ]],
+  ["Day-trip towns", [
+    ["Pescaria (Polignano a Mare)","Famous gourmet seafood panini — expect a line","$",false],
+    ["Osteria di Chichibio (Monopoli)","Top harborside seafood. Reserve","$$$",false],
+    ["Osteria del Tempo Perso (Ostuni)","Atmospheric stone-cave setting","$$",false],
+    ["Quid (Matera)","Top modern Murgian cooking in the Sassi","$$",false],
+  ]],
+  ["Alghero", [
+    ["Al Tuguri","Only fish, only fresh, only at dinner — old-town star","$$$",false],
+    ["Nautilus","Romantic seafood on the bastions over the port","$$$",false],
+    ["Ristorante Alamo","Reliable Sardinian seafood, charming street","$$",false],
+    ["La Lepanto","Long-running classic, central","$$$",false],
+  ]],
+  ["Solanas / Villasimius", [
+    ["Da Barbara (Solanas)","Famed seafood, walkable from your stay (not dog-friendly)","$$$",false],
+    ["La Lanterna (Villasimius)","Panoramic dining; octopus & seafood pasta","$$",false],
+    ["Pizzeria da Roby (Solanas)","Casual & fresh, easy walk-out option","$",false],
+  ]],
+  ["Cagliari", [
+    ["Pani e Casu (Castello)","Small, well-done menu in the old quarter — dog-welcoming","$$",true],
+    ["Marina-district seafood","Fresh daily catch near the old fish market","$$",false],
+  ]],
+  ["Sweet stops", [
+    ["Natale Pasticceria (Lecce)","Lecce's best gelato + the pasticciotto","$",false],
+    ["Seadas (anywhere in Sardinia)","Warm fried pecorino-&-honey pastry — order for dessert","$",false],
+    ["Bis Bar (Martina Franca)","Dairy-free pasticceria & gelato","$",false],
+  ]],
+];
+
+const BEACHES = [
+  ["Salento (from Lecce)", [
+    ["Baia dei Turchi (Otranto)","Wild white-sand cove in a pine forest","Mostly free"],
+    ["Torre dell'Orso","Sandy bay with the 'Due Sorelle' sea stacks","Free + lidos"],
+    ["Punta della Suina (Gallipoli)","'Ionian Caribbean' twin coves through pinewood","Free + lido"],
+    ["Pescoluse — Maldive del Salento","4 km of fine white sand, pool-clear shallows","Free + lidos"],
+    ["Spiaggia degli Alimini (Otranto)","Long golden dune beach","Free + clubs"],
+  ]],
+  ["Adriatic (from Martina Franca)", [
+    ["Cala Porta Vecchia (Monopoli)","Sandy crescent under the old walls","Free"],
+    ["Capitolo strand (Monopoli)","5 km soft sand, free + beach clubs","Free + lidos"],
+    ["Cala Paura (Polignano)","Pebble coves, crystal water, snorkeling","Free"],
+  ]],
+  ["Alghero (no car — bus/bike)", [
+    ["Maria Pia","White sand Alghero↔Fertilia; bus + bike path","No car needed"],
+    ["Le Bombarde","Iconic white sand; summer Beach Bus","No car (bus)"],
+    ["Lazzaretto","Pretty cove past Bombarde under its tower","No car (bus)"],
+    ["Mugoni","Calm shallow water, Capo Caccia views","No car (bus)"],
+    ["La Pelosa / Stintino","Stunning — but ~1 hr north","Car / tour"],
+  ]],
+  ["SE Sardinia (from Solanas — car)", [
+    ["Solanas beach","Right at your stay; walkable, dog-friendly","Walkable"],
+    ["Porto Giunco / Simius","Pink-tinged sand, turquoise, flamingo pond","Car"],
+    ["Punta Molentis","Dramatic rock-framed bay, snorkeling","Car (arrive early)"],
+    ["Cala Pira","Quiet cove, clear water, watchtower","Car"],
+    ["Costa Rei","Long beach with tranquil coves","Car (~30–40 min)"],
+  ]],
+];
+
+const WORLDCUP = [
+  {d:"14", m:"Jul", ti:"9 PM", title:"Semifinal 1", where:"Watch in Rome (Monti)",
+   body:"Kickoff 3 PM ET = 9 PM Italy time, your first night in Rome. Head to <b>Finnegans</b> in Monti (by the Cavour metro, steps from your guesthouse). Backups: Scholars Lounge (Piazza Venezia), Abbey Theatre (Piazza Navona), Shamrock (by the Colosseum)."},
+  {d:"15", m:"Jul", ti:"9 PM", title:"Semifinal 2", where:"Watch in Lecce",
+   body:"9 PM Italy time, your first night in Lecce. Try <b>Number 23</b> (near Piazza Mazzini) or <b>Al Bar dello Sport</b>; plenty of bars around Piazza Sant'Oronzo show the match."},
+  {d:"18", m:"Jul", ti:"opt.", title:"Third-place playoff", where:"Travel day (optional)",
+   body:"You're moving from Lecce to Martina Franca. Catch it at a café if you fancy."},
+  {d:"19", m:"Jul", ti:"9 PM", title:"THE FINAL 🏆", where:"Watch in Martina Franca",
+   body:"9 PM Italy time, in Martina Franca. Grab a spot in the centro storico (around Piazza XX Settembre / Piazza Roma) — bars set up big screens for the final. Ask hosts Alfonso & Claudia for the local favorite."},
+];
+
+const SPA = [
+  ["Puglia", [
+    ["Masseria Surace Spa (Valle d'Itria)","Heated pool + hydro-massage; day access","Book ahead"],
+    ["Masseria La Cornula (Ostuni)","Sauna, hammam, sensory shower, massages","Day spa"],
+    ["Masseria Palombara Relais & Spa (Salento)","Hammam, sauna, warm pool, massages","Book"],
+  ]],
+  ["Sardinia", [
+    ["Villa Las Tronas Hotel & Spa (Alghero)","Seafront spa; massages, sauna, indoor pool — walkable","$$$"],
+    ["Almar Timi Ama Resort & Spa (Villasimius)","Top resort spa: hammam, sea-pool hydromassage","$$$"],
+    ["Tanit Rooms & Spa (Villasimius)","Whirlpool, sauna, Turkish bath — smaller & relaxed","$$"],
+  ]],
+];
+
+const ACTIONS = [
+  {txt:"Confirm Coco is on the American & Delta reservations (no confirmation emails yet)", key:"a1"},
+  {txt:"Chat with Ryanair about the carry-on / bags (ref CZGRSW) — pay online to save", key:"a2"},
+  {txt:"Message Maris Apartments your flight arrival time for the free evening airport shuttle", key:"a3"},
+  {txt:"Pack the International Driving Permit + both US licenses", key:"a4"},
+  {txt:"Pack Coco's full document pack (EU cert, rabies, USDA, CDC receipt, service-dog letter)", key:"a5"},
+  {txt:"Bring €4 cash for the Alghero tourist tax", key:"a6"},
+  {txt:"Download the DropTicket app (Alghero €1 bus)", key:"a7"},
+];
+
+const PASSPORTS = [
+  {who:"Candice Dunston", num:"650899515", exp:"Aug 7, 2029", extra:"Issued Aug 8, 2019 · Place of birth: Maryland"},
+  {who:"Eric Bernon", num:"— add yours —", exp:"verify", extra:"Not found in a searchable email — add manually."},
+];
+
+const COCO_DOCS = [
+  "EU Veterinary Inspection Certificate (for EU travel)",
+  "Rabies Vaccination Certificate",
+  "USDA endorsement",
+  "CDC Dog Import Form receipt (low-risk) — carry with Coco",
+  "Microchip number",
+  "Assistance Dogs International Certificate",
+  "Service Dog letter + Candice medical document",
+  "Ryanair airport assistance — confirmed (CZGRSW)",
+];
+
+const PHRASES = [
+  ["Buongiorno","bwon-JOR-no","Good morning / hello"],
+  ["Buonasera","bwona-SEH-ra","Good evening"],
+  ["Grazie mille","GRAH-tsye MEE-leh","Thank you very much"],
+  ["Per favore","per fa-VOH-reh","Please"],
+  ["Un tavolo per due","oon TA-vo-lo per DOO-eh","A table for two"],
+  ["Il conto, per favore","eel KON-to","The check, please"],
+  ["È un cane guida","eh oon KA-neh GWEE-da","It's a service dog"],
+  ["Dov'è la spiaggia?","do-VEH la SPYAD-ja","Where's the beach?"],
+  ["Quanto costa?","KWAN-to KOS-ta","How much is it?"],
+  ["Posso pagare con carta?","POS-so pa-GA-reh kon KAR-ta","Can I pay by card?"],
+];
+
+/* ---------- RENDER ---------- */
+const TABS = [
+  ["today","Today","📍"],["trip","Itinerary","🗓️"],["stays","Stays","🛏️"],["travel","Travel","✈️"],
+  ["eat","Eat","🍝"],["beach","Beaches","🏖️"],["wc","World Cup","⚽"],["spa","Spa","💆"],
+  ["docs","Docs","🪪"],["talk","Phrases","💬"],
+];
+
+const main = document.getElementById('main');
+const tabsEl = document.getElementById('tabs');
+
+function el(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+function priceTier(p){return p;}
+
+function sectionTrip(){
+  let h = `<h2 class="sec">Itinerary</h2><p class="lead">Tap any day to expand. ${DAYS.length} days, Jul 13–30.</p>`;
+  DAYS.forEach((d,i)=>{
+    let ev = d.events.map(e=>`<div class="e"><div class="t">${e.t}</div><div class="b">${e.b}${e.s?`<small>${e.s}</small>`:''}${e.map?`<a class="maplink" target="_blank" href="${maps(e.map)}">📍 Open in Maps</a>`:''}</div></div>`).join('');
+    h += `<div class="card day" data-day="${i}"><div class="row"><div><span class="tag-date ${d.color}">${d.date}</span></div><span class="chev">▶</span></div>
+      <h3 style="margin-top:8px">${d.title}</h3><div class="ev">${ev}</div></div>`;
+  });
+  return h;
+}
+
+function sectionStays(){
+  let h = `<h2 class="sec">Where you're staying</h2><p class="lead">6 stays · tap a card for the map.</p>`;
+  STAYS.forEach(s=>{
+    h += `<div class="card"><div class="row"><h3>${s.name}</h3><span class="tag-date ${s.color}">${s.tag}</span></div>
+      <div class="meta">${s.city} · ${s.src}</div>
+      <div class="sub" style="margin-top:6px">${s.addr}</div>
+      <div class="mini" style="margin-top:4px">${s.inout}</div>
+      <div class="mini" style="margin-top:6px;color:var(--green)">${s.note}</div>
+      ${s.tel?`<div style="margin-top:6px">`+s.tel.map(t=>`${t[0]}: <a class="tel" href="tel:${t[1].replace(/\s/g,'')}">${t[1]}</a>`).join(' · ')+`</div>`:''}
+      <a class="maplink" target="_blank" href="${maps(s.map)}">📍 Open in Maps</a></div>`;
+  });
+  return h;
+}
+
+function sectionTravel(){
+  let h = `<h2 class="sec">Travel & cars</h2>`;
+  h += `<div class="alert red"><b>🪪 International Driving Permit</b><span class="small">You need an IDP to legally drive in Italy — carry it with your US license for both rental cars. Get one from AAA before you fly.</span></div>`;
+  h += `<div class="group-h">Flights</div>`;
+  FLIGHTS.forEach(f=>{
+    h += `<div class="card"><div class="row"><h3>${f.air}</h3><span class="tag-date sea">${f.d}</span></div>
+      <div class="sub" style="margin-top:4px"><b>${f.route}</b></div>
+      <div class="mini" style="margin-top:3px">${f.time}</div>
+      <div class="mini" style="margin-top:6px">${f.info}</div>
+      <div style="margin-top:6px"><span class="pill ${f.ref.includes('CZGRSW')?'green':'gray'}">${f.ref}</span></div>
+      ${f.flag?`<div class="alert" style="margin:8px 0 0"><span class="small">⚠ ${f.flagtxt}</span></div>`:''}</div>`;
+  });
+  h += `<div class="group-h">Rental cars</div>`;
+  CARS.forEach(c=>{
+    h += `<div class="card"><div class="row"><h3>${c.co}</h3><span class="tag-date olive">${c.tag}</span></div>
+      <div class="mini" style="margin-top:6px"><b>Pick up:</b> ${c.pickup}</div>
+      <div class="mini" style="margin-top:3px"><b>Drop off:</b> ${c.drop}</div>
+      <div style="margin-top:4px"><span class="pill gold">${c.price}</span></div>
+      <a class="maplink" target="_blank" href="${maps(c.map)}">📍 Open in Maps</a></div>`;
+  });
+  h += `<div class="group-h">Things to do before you go</div><div class="card" id="actionsCard"></div>`;
+  return h;
+}
+
+function renderActions(card){
+  card.innerHTML = ACTIONS.map(a=>`<div class="check" data-k="${a.key}"><div class="bx"></div><div class="lab">${a.txt}</div></div>`).join('');
+  card.querySelectorAll('.check').forEach(c=>{
+    const k='act_'+c.dataset.k;
+    if(localStorage.getItem(k)==='1') c.classList.add('done');
+    c.querySelector('.bx').onclick=()=>{c.classList.toggle('done');localStorage.setItem(k,c.classList.contains('done')?'1':'0');};
+  });
+}
+
+function sectionEat(){
+  let h = `<h2 class="sec">Eat & drink 🍝</h2><p class="lead">Reserve summer dinners 1–3 days ahead. ★ = easy with a dog.</p>`;
+  EAT.forEach(g=>{
+    h += `<div class="group-h">${g[0]}</div>`;
+    g[1].forEach(r=>{
+      h += `<div class="card"><div class="row"><h3>${r[0]} ${r[3]?'<span title="dog-friendly">★</span>':''}</h3><span class="pill gold">${r[2]}</span></div>
+        <div class="mini" style="margin-top:3px">${r[1]}</div>
+        <a class="maplink" target="_blank" href="${maps(r[0]+' '+g[0].split('(')[0])}">📍 Maps</a></div>`;
+    });
+  });
+  return h;
+}
+
+function sectionBeach(){
+  let h = `<h2 class="sec">Beaches 🏖️</h2><p class="lead">July is peak — go early for parking & loungers.</p>`;
+  BEACHES.forEach(g=>{
+    h += `<div class="group-h">${g[0]}</div>`;
+    g[1].forEach(b=>{
+      h += `<div class="card"><div class="row"><h3>${b[0]}</h3><span class="pill sea">${b[2]}</span></div>
+        <div class="mini" style="margin-top:3px">${b[1]}</div>
+        <a class="maplink" target="_blank" href="${maps(b[0])}">📍 Maps</a></div>`;
+    });
+  });
+  return h;
+}
+
+function sectionWC(){
+  let h = `<h2 class="sec">World Cup 2026 ⚽</h2>
+    <div class="banner"><b>All kickoffs 3 PM ET = 9 PM Italy time.</b> 🇮🇹 Italy didn't qualify (lost the playoff to Bosnia), so it's relaxed neutral viewing — perfect with dinner and a drink.</div>`;
+  WORLDCUP.forEach(w=>{
+    h += `<div class="card"><div class="wc"><div class="when"><div class="d">${w.d}</div><div class="m">${w.m}</div><div class="ti">${w.ti}</div></div>
+      <div><h3>${w.title}</h3><div class="meta">${w.where}</div><div class="mini" style="margin-top:6px">${w.body}</div></div></div></div>`;
+  });
+  return h;
+}
+
+function sectionSpa(){
+  let h = `<h2 class="sec">Spa & massage 💆</h2><p class="lead">Call ahead — most masseria spas take day guests by reservation.</p>`;
+  SPA.forEach(g=>{
+    h += `<div class="group-h">${g[0]}</div>`;
+    g[1].forEach(s=>{
+      h += `<div class="card"><div class="row"><h3>${s[0]}</h3><span class="pill pink">${s[2]}</span></div>
+        <div class="mini" style="margin-top:3px">${s[1]}</div>
+        <a class="maplink" target="_blank" href="${maps(s[0])}">📍 Maps</a></div>`;
+    });
+  });
+  return h;
+}
+
+function sectionDocs(){
+  let h = `<h2 class="sec">Documents 🪪</h2>
+    <div class="alert red"><b>🪪 International Driving Permit</b><span class="small">Required to drive in Italy — bring it with your US licenses.</span></div>`;
+  h += `<div class="group-h">Passports</div><div class="card"><p class="mini" style="margin:0 0 10px">Numbers are hidden. Tap to reveal.</p><div id="ppBox"></div>
+    <button class="reveal" id="ppBtn" style="margin-top:6px">👁 Reveal passport numbers</button></div>`;
+  h += `<div class="group-h">Coco's travel pack 🐶</div><div class="card">` +
+    COCO_DOCS.map(d=>`<div class="doc-line"><span>${d}</span></div>`).join('') +
+    `<div class="mini" style="margin-top:8px;color:var(--green)">Originals are in your Travel folder &amp; Gmail. Keep the CDC receipt with Coco.</div></div>`;
+  return h;
+}
+
+function renderPassports(){
+  const box=document.getElementById('ppBox');
+  const shown=box.dataset.shown==='1';
+  box.innerHTML=PASSPORTS.map(p=>`<div class="doc-line"><span><b>${p.who}</b><br><span class="mini">${p.extra}</span></span>
+    <span style="text-align:right"><span class="hidden-val">${shown?p.num:'•••••••••'}</span><br><span class="mini">exp ${p.exp}</span></span></div>`).join('');
+}
+
+function sectionTalk(){
+  let h = `<h2 class="sec">Italian quick phrases 💬</h2><p class="lead">Lead with "Buongiorno" — always.</p><div class="card">`;
+  h += PHRASES.map(p=>`<div class="phrase"><div><div class="it">${p[0]}</div><div class="pr">${p[1]}</div></div><div class="en">${p[2]}</div></div>`).join('');
+  h += `</div>`;
+  return h;
+}
+
+/* TODAY */
+function tripDateForDay(i){
+  // Days start Jul 13 2026
+  return new Date(2026,6,13+i);
+}
+function sectionToday(){
+  let h = `<h2 class="sec">At a glance</h2>`;
+  h += `<div class="banner"><b>Trip countdown</b><div class="countdown" id="cd"></div></div>`;
+  h += `<div class="group-h">Don't forget</div><div class="card" id="todayActions"></div>`;
+  h += `<div class="group-h">The route</div><div class="card">
+    <div class="mini" style="line-height:2">
+    🏛️ <b>Rome</b> · Jul 14–15<br>
+    🫒 <b>Lecce</b> (Salento) · Jul 15–18<br>
+    🏡 <b>Martina Franca</b> (Valle d'Itria) · Jul 18–21<br>
+    🌊 <b>Alghero</b> (Sardinia NW) · Jul 21–25<br>
+    🏖️ <b>Solanas</b> (Sardinia SE) · Jul 25–30</div></div>`;
+  h += `<div class="foot">Made for Eric, Candice &amp; Coco 🐾<br>Tap the share icon → "Add to Home Screen" to install.</div>`;
+  return h;
+}
+
+function updateStatus(){
+  const now=new Date();
+  const start=new Date(2026,6,13), end=new Date(2026,6,30,23,59);
+  const sN=document.getElementById('statusNow'), sX=document.getElementById('statusNext');
+  if(now<start){
+    const days=Math.ceil((start-now)/86400000);
+    sN.textContent=`${days} day${days!==1?'s':''} until Italy ✈️`;
+    sX.textContent="First stop: Rome — Guest House Cavour 278, Monti.";
+  } else if(now>end){
+    sN.textContent="Buon viaggio — trip complete 🇮🇹";
+    sX.textContent="Hope it was magical.";
+  } else {
+    const idx=Math.floor((now - start)/86400000);
+    const d=DAYS[idx];
+    if(d){sN.textContent=`Today: ${d.title}`;
+      const nx=DAYS[idx+1];
+      sX.textContent=nx?`Tomorrow: ${nx.title}`:"Last day — safe travels home.";}
+  }
+}
+function updateCountdown(){
+  const cd=document.getElementById('cd'); if(!cd)return;
+  const now=new Date(), start=new Date(2026,6,13);
+  if(now<start){const days=Math.ceil((start-now)/86400000);cd.textContent=`${days} day${days!==1?'s':''} to go!`;}
+  else if(now<=new Date(2026,6,30,23,59)){cd.textContent="You're in Italy right now 🎉";}
+  else cd.textContent="Trip complete 🇮🇹";
+}
+
+const RENDER={today:sectionToday,trip:sectionTrip,stays:sectionStays,travel:sectionTravel,eat:sectionEat,
+  beach:sectionBeach,wc:sectionWC,spa:sectionSpa,docs:sectionDocs,talk:sectionTalk};
+
+function show(id){
+  main.innerHTML='';
+  const s=document.createElement('section');s.className='on';s.innerHTML=RENDER[id]();
+  main.appendChild(s);
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.t===id));
+  window.scrollTo(0,0);
+  // hooks
+  if(id==='trip'){s.querySelectorAll('.day').forEach(d=>d.onclick=()=>d.classList.toggle('open'));}
+  if(id==='travel'){renderActions(s.querySelector('#actionsCard'));}
+  if(id==='today'){renderActions(s.querySelector('#todayActions'));updateCountdown();}
+  if(id==='docs'){renderPassports();
+    const btn=s.querySelector('#ppBtn'),box=s.querySelector('#ppBox');
+    btn.onclick=()=>{const sh=box.dataset.shown==='1';box.dataset.shown=sh?'0':'1';renderPassports();btn.textContent=sh?'👁 Reveal passport numbers':'🙈 Hide numbers';};}
+  localStorage.setItem('lastTab',id);
+}
+
+tabsEl.innerHTML=TABS.map(t=>`<button data-t="${t[0]}"><span class="ic">${t[2]}</span>${t[1]}</button>`).join('');
+tabsEl.querySelectorAll('button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+
+updateStatus();
+show(localStorage.getItem('lastTab')||'today');
+
+/* service worker */
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+</script>
+</body>
+</html>
